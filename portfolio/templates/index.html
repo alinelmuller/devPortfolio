@@ -4,19 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DevPortfolio</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
 <div class="container">
     <header>
         <div class="logo">
             DevPortfolio
-            <div class="links-dev">
-                <a href="#">Create Yours</a> |
-                <a href="#">Check Portfolios</a>
-            </div>
         </div>
-        
+        <div class="links-dev">
+            <a href="{% url 'login' %}">Create Yours</a> |
+            <a href="#">Check Portfolios</a>
+        </div>
         <nav>
             <ul>
                 <li><a href="#">Home</a></li>
