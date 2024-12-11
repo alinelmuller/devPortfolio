@@ -1,7 +1,7 @@
 :root {
     --primary-color: #ff007a;
     --secondary-color: #333;
-    --light-color: #f4f4f4;
+    --light-color: #f3f4f6;
     --dark-color: #1e1e2f;
 }
 
@@ -18,6 +18,13 @@ body {
     padding: 0; 
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+.login-box{
+    width: 280px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 
 header {
     display: flex;
@@ -33,9 +40,11 @@ header .logo {
     font-weight: bold;
     color: var(--primary-color);
     padding-left: 30px;
+    display: flex;
+    align-items: center;
 }
 header .links-dev {
-    margin-left: -35px;
+    margin-left: 20px;
 
 } 
 
