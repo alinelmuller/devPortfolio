@@ -1,0 +1,25 @@
+<h2>Register</h2>
+<form method="post" onsubmit="return validateForm()">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Register</button>
+</form>
+<script>
+function validateForm() {
+    const email = document.querySelector('[name="email"]');
+    const password1 = document.querySelector('[name="password1"]');
+    const password2 = document.querySelector('[name="password2"]');
+
+    if (!email.value) {
+        alert('Email is required.');
+        email.focus();
+        return false;
+    }
+    if (password1.value !== password2.value) {
+        alert('Passwords do not match.');
+        password1.focus();
+        return false;
+    }
+    return true;
+}
+</script>
