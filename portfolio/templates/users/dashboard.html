@@ -1,2 +1,93 @@
-<h2>Welcome, {{ user.username }}!</h2>
-<p>Your email: {{ user.email }}</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMS Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>DevPortfolio</h1>
+            <div>
+                <span>Portfolio Link:</span>
+                <a href="#">http://www.devportfolio/me/username</a>
+            </div>
+            <a class="logout" href="{% url 'login' %}">Logout</a>
+        </header>
+
+        <section class="section">
+            <h2>Design</h2>
+            <form>
+                <input type="text" placeholder="Accent Color">
+                <input type="text" placeholder="Image for Home">
+                <div class="actions">
+                    <button type="button">Edit</button>
+                    <button type="submit">Save</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="section">
+            <h2>About Me</h2>
+            <form>
+                <input type="text" placeholder="Name/Nickname">
+                <input type="text" placeholder="Role">
+                <textarea placeholder="Text About Me"></textarea>
+                <input type="text" placeholder="Upload Picture">
+                <input type="text" placeholder="LinkedIn Link">
+                <div class="actions">
+                    <button type="button">Edit</button>
+                    <button type="submit">Save</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="section">
+            <h2>Expertises</h2>
+            <form>
+                <input type="text" placeholder="Skill Name">
+                <textarea placeholder="Info About It"></textarea>
+                <div class="actions">
+                    <button type="submit">Save</button>
+                </div>
+            </form>
+            <div class="skills">
+                <div class="skill">
+                    <span>JavaScript</span>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                    <div class="actions">
+                        <button>Edit</button>
+                        <button>Delete</button>
+                    </div>
+                </div>
+                <div class="skill">
+                    <span>HTML 5</span>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                    <div class="actions">
+                        <button>Edit</button>
+                        <button>Delete</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Contact Me</h2>
+            <form>
+                <input type="email" placeholder="Email">
+                <div class="actions">
+                    <button type="button">Edit</button>
+                    <button type="submit">Save</button>
+                </div>
+            </form>
+        </section>
+
+        <footer>
+            &copy; 2024 DevPortfolio. All rights reserved.
+        </footer>
+    </div>
+</body>
+</html>
