@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
-from .forms import RegisterForm
-from .models import Portfolio, Skill
+from .forms import RegisterForm, PortfolioForm, SkillForm, SkillPortForm, DesignForm, AboutForm, ContactForm
+from .models import Portfolio, Skill, SkillPort
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
@@ -37,42 +37,53 @@ def delete_skill(request, skill_id):
 @login_required
 @require_POST
 def add_skill(request):
-    portfolio = Portfolio.objects.filter(user=request.user).first()
-    if portfolio:
-        skill_name = request.POST.get('skill_name')
-        skill_description = request.POST.get('skill_description')
-        Skill.objects.create(portfolio=portfolio, name=skill_name, description=skill_description)
+    if request.method == 'POST':
+        form = SkillForm(request.POST)
+        if form.is_valid():
+            skill = form.save(commit=False)
+            skill.portfolio = request.user.get_portfolio()
+            skill.save()
+            return redirect('dashboard')
     return redirect('dashboard')
 
 @login_required
 @require_POST
 @csrf_exempt
 def save_design(request):
-    portfolio, created = Portfolio.objects.get_or_create(user=request.user)
-    portfolio.accent_color = request.POST.get('accent_color', '')
-    portfolio.home_picture = request.POST.get('home_picture', '')
-    portfolio.save()
+    if request.method == 'POST':
+        form = DesignForm(request.POST, request.FILES, instance=request.user.get_portfolio())
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
     return redirect('dashboard')
 
 @login_required
 @require_POST
 @csrf_exempt
 def save_about(request):
-    portfolio, created = Portfolio.objects.get_or_create(user=request.user)
-    portfolio.name = request.POST.get('name', '')
-    portfolio.role = request.POST.get('role', '')
-    portfolio.about_text = request.POST.get('about_text', '')
-    portfolio.linkedin_link = request.POST.get('linkedin_link', '')
-    portfolio.save()
+    if request.method == 'POST':
+        form = AboutForm(request.POST, request.FILES, instance=request.user.get_portfolio())
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
     return redirect('dashboard')
 
 @login_required
 @require_POST
 @csrf_exempt
 def save_contact(request):
-    request.user.email = request.POST.get('email', '')
-    request.user.save()
+    if request.method == 'POST':
+        form = ContactForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
     return redirect('dashboard')
+
+def portfolio_detail(request, pk):
+    portfolio = get_object_or_404(Portfolio, pk=pk)
+    skills = Skill.objects.filter(portfolio=portfolio)
+    skill_ports = SkillPort.objects.filter(portfolio=portfolio)
+    return render(request, 'portfolio/portfolio_detail.html', {'portfolio': portfolio, 'skills': skills, 'skill_ports': skill_ports})
 
 class CustomLoginView(LoginView):
     template_name = 'users/login.html'

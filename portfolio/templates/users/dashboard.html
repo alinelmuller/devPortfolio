@@ -18,10 +18,10 @@
     <!-- Design Section -->
     <section class="section">
         <h2>Design</h2>
-        <form id="design-form" method="post" action="{% url 'save_design' %}">
+        <form id="design-form" method="post" action="{% url 'save_design' %}" enctype="multipart/form-data">
             {% csrf_token %}
             <input type="text" name="accent_color" placeholder="Accent Color" value="{{ portfolio.accent_color|default_if_none:'' }}">
-            <input type="text" name="home_picture" placeholder="Image for Home" value="{{ portfolio.home_picture|default_if_none:'' }}">
+            <input type="file" name="home_picture" placeholder="Image for Home">
             <button type="submit">Save</button>
         </form>
     </section>
@@ -29,12 +29,13 @@
     <!-- About Me Section -->
     <section class="section">
         <h2>About Me</h2>
-        <form id="about-form" method="post" action="{% url 'save_about' %}">
+        <form id="about-form" method="post" action="{% url 'save_about' %}" enctype="multipart/form-data">
             {% csrf_token %}
             <input type="text" name="name" placeholder="Name/Nickname" value="{{ portfolio.name|default_if_none:'' }}">
             <input type="text" name="role" placeholder="Role" value="{{ portfolio.role|default_if_none:'' }}">
             <textarea name="about_text" placeholder="Text About Me">{{ portfolio.about_text|default_if_none:'' }}</textarea>
             <input type="text" name="linkedin_link" placeholder="LinkedIn Link" value="{{ portfolio.linkedin_link|default_if_none:'' }}">
+            <input type="file" name="me_picture" placeholder="Upload Picture">
             <button type="submit">Save</button>
         </form>
     </section>
