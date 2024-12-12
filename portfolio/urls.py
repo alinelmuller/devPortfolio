@@ -1,11 +1,16 @@
-from django.urls import path
-from django.contrib.auth.views import LoginView, LogoutView
+from django.urls import path, include
 from . import views
+from .views import CustomLoginView, CustomLogoutView
 
 urlpatterns = [
     path('', views.index, name='index'),
     path('register/', views.register, name='register'),
-    path('login/', LoginView.as_view(template_name='users/login.html'), name='login'),
-    path('logout/', LogoutView.as_view(template_name='users/logout.html'), name='logout'),
+    path('login/', CustomLoginView.as_view(), name='login'),
+    path('logout/', CustomLogoutView.as_view(), name='logout'),
     path('dashboard/', views.dashboard, name='dashboard'),
+    path('delete-skill/<int:skill_id>/', views.delete_skill, name='delete_skill'),
+    path('save_design/', views.save_design, name='save_design'),
+    path('save_about/', views.save_about, name='save_about'),
+    path('save_contact/', views.save_contact, name='save_contact'),
+    path('add-skill/', views.add_skill, name='add_skill'), 
 ]

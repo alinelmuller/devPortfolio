@@ -35,3 +35,24 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+    def get_portfolio(self):
+        return Portfolio.objects.filter(user=self).first()
+
+class Portfolio(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+class Skill(models.Model):
+    portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    level = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
