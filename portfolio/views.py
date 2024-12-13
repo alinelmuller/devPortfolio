@@ -85,6 +85,30 @@ def portfolio_detail(request, pk):
     skill_ports = SkillPort.objects.filter(portfolio=portfolio)
     return render(request, 'portfolio/portfolio_detail.html', {'portfolio': portfolio, 'skills': skills, 'skill_ports': skill_ports})
 
+# def user_portfolio(request):
+#     portfolio = get_object_or_404(Portfolio, user=request.user)
+#     skills = Skill.objects.filter(portfolio=portfolio)
+#     return render(request, 'me/user_portfolio.html', {'portfolio': portfolio, 'skills': skills})
+
+
+@login_required
+def user_portfolio(request):
+    portfolio, created = Portfolio.objects.get_or_create(
+        user=request.user,
+        defaults={
+            'title': 'Default Title',
+            'description': 'Default Description',
+            'name': 'Default Name',
+            'role': 'Default Role',
+            'linkedin_link': 'https://www.linkedin.com',
+            'me_picture': 'default_me_picture.jpg',
+            'accent_color': '#000000',
+            'home_picture': 'default_home_picture.jpg',
+        }
+    )
+    skills = Skill.objects.filter(portfolio=portfolio)
+    return render(request, 'me/user_portfolio.html', {'portfolio': portfolio, 'skills': skills})
+
 class CustomLoginView(LoginView):
     template_name = 'users/login.html'
 

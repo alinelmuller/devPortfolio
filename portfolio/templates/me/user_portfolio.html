@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Portfolio</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>{{ user.name }}'s Profile</h1>
+        <a class="logout" href="{% url 'logout' %}">Logout</a>
+    </header>
+
+    <section class="section">
+        <h2>About Me</h2>
+        <p>Name: {{ portfolio.name }}</p>
+        <p>Role: {{ portfolio.role }}</p>
+        <p>LinkedIn: <a href="{{ portfolio.linkedin_link }}">{{ portfolio.linkedin_link }}</a></p>
+        <img src="{{ portfolio.me_picture.url }}" alt="Profile Picture">
+    </section>
+
+    <section class="section">
+        <h2>Design</h2>
+        <p>Accent Color: {{ portfolio.accent_color }}</p>
+        <img src="{{ portfolio.home_picture.url }}" alt="Home Picture">
+    </section>
+
+    <section class="section">
+        <h2>Expertises</h2>
+        <ul>
+            {% for skill in skills %}
+                <li>{{ skill.name }}: {{ skill.skill_description }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section class="section">
+        <h2>Contact</h2>
+        <p>Email: {{ user.email }}</p>
+    </section>
+</div>
+</body>
+</html>
