@@ -7,6 +7,10 @@ from .models import Portfolio, Skill, SkillPort
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
+from django.core.mail import send_mail
+from django.urls import reverse
+from django.conf import settings
+from django.contrib import messages
 
 def index(request):
     return render(request, 'index.html')
@@ -109,8 +113,36 @@ def user_portfolio(request):
     skills = Skill.objects.filter(portfolio=portfolio)
     return render(request, 'me/user_portfolio.html', {'portfolio': portfolio, 'skills': skills})
 
+@login_required
+def send_message(request):
+    if request.method == 'POST':
+        name = request.POST['name']
+        email = request.POST['email']
+        message = request.POST['message']
+        subject = f"Message from {name} via DevPortfolio"
+        full_message = f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
+        send_mail(subject, full_message, settings.DEFAULT_FROM_EMAIL, [request.user.email])
+        return redirect(reverse('user_portfolio'))
+    return render(request, 'me/user_portfolio.html')
+
 class CustomLoginView(LoginView):
     template_name = 'users/login.html'
 
 class CustomLogoutView(LogoutView):
     next_page = 'index'
+
+
+def send_message(request):
+    if request.method == 'POST':
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
+        from_email = request.POST.get('from_email')
+        recipient_list = ['recipient-email@example.com']
+
+        try:
+            send_mail(subject, message, from_email, recipient_list)
+            messages.success(request, 'Email sent successfully.')
+        except Exception as e:
+            messages.error(request, f'Error sending email: {e}')
+
+    return redirect('some_view_name')

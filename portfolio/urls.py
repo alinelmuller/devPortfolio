@@ -15,4 +15,5 @@ urlpatterns = [
     path('add-skill/', views.add_skill, name='add_skill'),
     path('portfolio/<int:pk>/', views.portfolio_detail, name='portfolio_detail'),
     path('me/', views.user_portfolio, name='user_portfolio'),
+    path('send_message/', views.send_message, name='send_message'),
 ]
